@@ -28,8 +28,14 @@ const PredictionDisplay: React.FC<PredictionDisplayProps> = ({ prediction: initi
         }
       };
       fetchLatestPrediction();
+    } else {
+      setPrediction(initialPrediction);
     }
   }, [initialPrediction]);
+
+  useEffect(() => {
+    setIsLoading(initialIsLoading);
+  }, [initialIsLoading]);
 
   const getRiskColor = (riskLevel: string) => {
     switch (riskLevel) {
