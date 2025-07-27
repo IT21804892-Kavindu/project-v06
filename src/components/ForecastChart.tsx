@@ -27,7 +27,38 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ forecast }) => {
   const minIndex = Math.min(...forecast.map(f => f.premiseIndex));
 
   // Group forecast by weeks for better visualization
-  const weeklyForecast = forecast.filter((_, index) => index % 7 === 0).slice(0, 12);
+  const getWeekStartDate = (date: Date) => {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
+    return new Date(d.setDate(diff));
+  };
+
+  const today = new Date();
+  const currentWeekStart = getWeekStartDate(today);
+
+  const futureForecasts = forecast.filter(f => new Date(f.date) >= currentWeekStart);
+
+  const weeklyForecast = Array.from({ length: 12 }, (_, i) => {
+    const weekStart = new Date(currentWeekStart);
+    weekStart.setDate(weekStart.getDate() + i * 7);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+
+    const weekData = futureForecasts.filter(f => {
+      const fDate = new Date(f.date);
+      return fDate >= weekStart && fDate <= weekEnd;
+    });
+
+    const avgPremiseIndex = weekData.length > 0
+      ? weekData.reduce((acc, curr) => acc + curr.premiseIndex, 0) / weekData.length
+      : 0;
+
+    return {
+      date: weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      premiseIndex: avgPremiseIndex,
+    };
+  });
 
   return (
     <div className="space-y-4">
@@ -94,21 +125,31 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ forecast }) => {
               .join(' ')}
           />
           
-          {/* Data points */}
+          {/* Data points and labels */}
           {weeklyForecast.map((data, index) => {
             const x = (index / (weeklyForecast.length - 1)) * chartWidth;
             const y = chartHeight - (data.premiseIndex / 100) * chartHeight;
             
             return (
-              <circle
-                key={index}
-                cx={`${x}%`}
-                cy={y}
-                r="4"
-                fill="#6366f1"
-                stroke="white"
-                strokeWidth="2"
-              />
+              <g key={index}>
+                <circle
+                  cx={`${x}%`}
+                  cy={y}
+                  r="4"
+                  fill="#6366f1"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+                <text
+                  x={`${x}%`}
+                  y={chartHeight + 20}
+                  fontSize="12"
+                  fill="#6b7280"
+                  textAnchor="middle"
+                >
+                  {data.date}
+                </text>
+              </g>
             );
           })}
         </svg>
