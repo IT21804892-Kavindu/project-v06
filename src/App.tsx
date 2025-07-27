@@ -53,22 +53,7 @@ const App: React.FC = () => {
     loadPredictions();
     loadForecast();
     checkBackendStatus();
-    // Load initial data from Firebase on startup
-    loadInitialData();
   }, []);
-
-  const loadInitialData = async () => {
-    try {
-      const last30DaysPredictions = await databaseService.getLast30DaysPredictions();
-      if (last30DaysPredictions.length > 0) {
-        setPredictions(last30DaysPredictions);
-        setDisplayPredictions(last30DaysPredictions);
-        console.log(`Loaded ${last30DaysPredictions.length} predictions from Firebase`);
-      }
-    } catch (error) {
-      console.error('Error loading initial data:', error);
-    }
-  };
 
   useEffect(() => {
     // Filter predictions to show only last 30 days
