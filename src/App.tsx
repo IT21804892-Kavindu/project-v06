@@ -70,10 +70,8 @@ const App: React.FC = () => {
 
   const loadPredictions = async () => {
     try {
-      const last30DaysPredictions = await databaseService.getLast30DaysPredictions();
       const allPredictions = await databaseService.getAllPredictions();
       setPredictions(allPredictions);
-      setDisplayPredictions(last30DaysPredictions);
     } catch (error) {
       console.error('Error loading predictions:', error);
     }
