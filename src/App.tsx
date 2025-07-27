@@ -63,6 +63,7 @@ const App: React.FC = () => {
       if (last30DaysPredictions.length > 0) {
         setPredictions(last30DaysPredictions);
         setDisplayPredictions(last30DaysPredictions);
+        setCurrentPrediction(last30DaysPredictions[0]);
         console.log(`Loaded ${last30DaysPredictions.length} predictions from Firebase`);
       }
     } catch (error) {
