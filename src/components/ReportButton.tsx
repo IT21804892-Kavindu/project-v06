@@ -31,13 +31,11 @@ const ReportButton: React.FC<ReportButtonProps> = ({ predictions, onReportGenera
 
       await reportGenerator.generatePDFReport(reportData);
       
+      // Call the callback to clear data after successful report generation
+      onReportGenerated();
+
       // Show success message
       alert('Report generated successfully! Check your downloads folder.');
-
-      // Prompt user to clear data
-      if (window.confirm('Do you want to clear the data in prediction history?')) {
-        onReportGenerated();
-      }
       
     } catch (error) {
       console.error('Error generating report:', error);

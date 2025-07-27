@@ -1,42 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Activity, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 import type { Prediction } from '../App';
-import { databaseService } from '../services/database';
 
 interface PredictionDisplayProps {
   prediction: Prediction | null;
   isLoading: boolean;
 }
 
-const PredictionDisplay: React.FC<PredictionDisplayProps> = ({ prediction: initialPrediction, isLoading: initialIsLoading }) => {
-  const [prediction, setPrediction] = useState<Prediction | null>(initialPrediction);
-  const [isLoading, setIsLoading] = useState(initialIsLoading);
-
-  useEffect(() => {
-    if (!initialPrediction) {
-      const fetchLatestPrediction = async () => {
-        setIsLoading(true);
-        try {
-          const latestPrediction = await databaseService.getLatestPrediction();
-          if (latestPrediction) {
-            setPrediction(latestPrediction);
-          }
-        } catch (error) {
-          console.error('Error fetching latest prediction:', error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      fetchLatestPrediction();
-    } else {
-      setPrediction(initialPrediction);
-    }
-  }, [initialPrediction]);
-
-  useEffect(() => {
-    setIsLoading(initialIsLoading);
-  }, [initialIsLoading]);
-
+const PredictionDisplay: React.FC<PredictionDisplayProps> = ({ prediction, isLoading }) => {
   const getRiskColor = (riskLevel: string) => {
     switch (riskLevel) {
       case 'low': return 'text-green-600 bg-green-100';
