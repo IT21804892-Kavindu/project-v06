@@ -97,7 +97,7 @@ const App: React.FC = () => {
       // Convert API response to Prediction format
       const prediction: Prediction = {
         id: Date.now().toString(),
-        timestamp: new Date().toLocaleString(),
+        timestamp: new Date().toISOString(),
         premiseIndex: parseFloat(apiResult.premiseIndex.toFixed(2)),
         rainfall: parseFloat(data.rainfall.toFixed(2)),
         temperature: parseFloat(data.temperature.toFixed(2)),
@@ -165,7 +165,7 @@ const App: React.FC = () => {
 
     return {
       id: Date.now().toString(),
-      timestamp: new Date().toLocaleString(),
+      timestamp: new Date().toISOString(),
       premiseIndex: parseFloat(finalIndex.toFixed(2)),
       rainfall: parseFloat(data.rainfall.toFixed(2)),
       temperature: parseFloat(data.temperature.toFixed(2)),
