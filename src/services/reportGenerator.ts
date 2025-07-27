@@ -133,7 +133,7 @@ class ReportGenerator {
 
         xPos = 20;
         const rowData = [
-          prediction.timestamp.split(',')[0], // Date only
+          prediction.timestamp,
           `${prediction.premiseIndex}%`,
           prediction.riskLevel.toUpperCase(),
           `${prediction.temperature}°C`,
