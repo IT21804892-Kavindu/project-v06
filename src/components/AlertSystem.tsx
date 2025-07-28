@@ -6,7 +6,18 @@ interface AlertSystemProps {
   onDismiss: (index: number) => void;
 }
 
+import { useEffect } from 'react';
+
 const AlertSystem: React.FC<AlertSystemProps> = ({ alerts, onDismiss }) => {
+  useEffect(() => {
+    if (alerts.length > 0) {
+      const timer = setTimeout(() => {
+        onDismiss(alerts.length - 1);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [alerts, onDismiss]);
+
   if (alerts.length === 0) {
     return null;
   }

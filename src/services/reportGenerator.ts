@@ -111,8 +111,8 @@ class ReportGenerator {
       pdf.setFont('helvetica', 'bold');
 
       // Table headers
-      const headers = ['Date/Time', 'Premise Index', 'Risk Level', 'Temperature', 'Rainfall'];
-      const colWidths = [40, 25, 25, 25, 25];
+      const headers = ['Date/Time', 'Premise Index', 'Risk Level', 'Temperature', 'Rainfall', 'Water Content'];
+      const colWidths = [40, 25, 25, 25, 25, 25];
       let xPos = 20;
 
       headers.forEach((header, index) => {
@@ -133,11 +133,12 @@ class ReportGenerator {
 
         xPos = 20;
         const rowData = [
-          prediction.timestamp.split(',')[0], // Date only
+          prediction.timestamp,
           `${prediction.premiseIndex}%`,
           prediction.riskLevel.toUpperCase(),
           `${prediction.temperature}°C`,
-          `${prediction.rainfall}mm`
+          `${prediction.rainfall}mm`,
+          `${prediction.waterContent}`
         ];
 
         rowData.forEach((data, colIndex) => {
