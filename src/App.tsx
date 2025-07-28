@@ -50,25 +50,21 @@ const App: React.FC = () => {
   const [isSavingToDb, setIsSavingToDb] = useState(false);
 
   useEffect(() => {
+    loadPredictions();
     loadForecast();
     checkBackendStatus();
+    // Load initial data from Firebase on startup
+    loadInitialData();
   }, []);
 
   const loadInitialData = async () => {
     try {
-      const allPredictions = await databaseService.getAllPredictions();
-      setPredictions(allPredictions);
-
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-      const filtered = allPredictions.filter(prediction => {
-        const predictionDate = new Date(prediction.timestamp);
-        return predictionDate >= thirtyDaysAgo;
-      });
-
-      setDisplayPredictions(filtered);
-      console.log(`Loaded ${allPredictions.length} predictions from Firebase`);
+      const last30DaysPredictions = await databaseService.getLast30DaysPredictions();
+      if (last30DaysPredictions.length > 0) {
+        setPredictions(last30DaysPredictions);
+        setDisplayPredictions(last30DaysPredictions);
+        console.log(`Loaded ${last30DaysPredictions.length} predictions from Firebase`);
+      }
     } catch (error) {
       console.error('Error loading initial data:', error);
     }
@@ -86,6 +82,17 @@ const App: React.FC = () => {
 
     setDisplayPredictions(filtered);
   }, [predictions]);
+
+  const loadPredictions = async () => {
+    try {
+      const last30DaysPredictions = await databaseService.getLast30DaysPredictions();
+      const allPredictions = await databaseService.getAllPredictions();
+      setPredictions(allPredictions);
+      setDisplayPredictions(last30DaysPredictions);
+    } catch (error) {
+      console.error('Error loading predictions:', error);
+    }
+  };
 
   const checkBackendStatus = async () => {
     try {
@@ -223,14 +230,19 @@ const App: React.FC = () => {
 
   const handleReportGenerated = async () => {
     try {
-      await databaseService.clearAllPredictions();
-      setPredictions([]);
-      setDisplayPredictions([]);
-      setCurrentPrediction(null);
-      setAlerts(prev => ['Prediction history cleared.', ...prev.slice(0, 4)]);
+      // Clear all predictions from database
+      // await databaseService.clearAllPredictions();
+
+      // Clear local state
+      // setPredictions([]);
+      // setDisplayPredictions([]);
+      // setCurrentPrediction(null);
+      // setAlerts(prev => ['Report generated successfully. All prediction data has been cleared.', ...prev.slice(0, 4)]);
+      setAlerts(prev => ['Report generated successfully.', ...prev.slice(0, 4)]);
+
     } catch (error) {
       console.error('Error clearing data after report generation:', error);
-      setAlerts((prev: string[]) => ['Failed to clear prediction history.', ...prev.slice(0, 4)]);
+      setAlerts((prev: string[]) => ['Report generated but failed to clear data. Please try manually.', ...prev.slice(0, 4)]);
     }
   };
 
