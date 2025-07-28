@@ -75,9 +75,6 @@ const App: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    // This effect is no longer necessary as filtering is handled in loadInitialData
-  }, [predictions]);
 
   const checkBackendStatus = async () => {
     try {
@@ -109,7 +106,12 @@ const App: React.FC = () => {
       };
       
       setCurrentPrediction(prediction);
-      setPredictions(prev => [prediction, ...prev]);
+      const newPredictions = [prediction, ...predictions];
+      setPredictions(newPredictions);
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const filtered = newPredictions.filter(p => new Date(p.timestamp) >= thirtyDaysAgo);
+      setDisplayPredictions(filtered);
       
       // Save to database
       try {
@@ -134,7 +136,12 @@ const App: React.FC = () => {
       // Fallback to local calculation if backend fails
       const fallbackPrediction = calculateFallbackPrediction(data);
       setCurrentPrediction(fallbackPrediction);
-      setPredictions(prev => [fallbackPrediction, ...prev]);
+      const newPredictions = [fallbackPrediction, ...predictions];
+      setPredictions(newPredictions);
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const filtered = newPredictions.filter(p => new Date(p.timestamp) >= thirtyDaysAgo);
+      setDisplayPredictions(filtered);
     } finally {
       setIsLoading(false);
     }
