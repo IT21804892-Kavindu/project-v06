@@ -24,6 +24,8 @@ dist-ssr
 *.sw?
 .env
 *.pyc
+__pycache__/
+
 
 node_modules/
 firebase-credentials.json
