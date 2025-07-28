@@ -222,11 +222,17 @@ const App: React.FC = () => {
     setForecast(forecastData);
   };
 
-  const handleReportGenerated = () => {
-    setPredictions([]);
-    setDisplayPredictions([]);
-    setCurrentPrediction(null);
-    setAlerts(prev => ['Prediction history cleared.', ...prev.slice(0, 4)]);
+  const handleReportGenerated = async () => {
+    try {
+      await databaseService.clearAllPredictions();
+      setPredictions([]);
+      setDisplayPredictions([]);
+      setCurrentPrediction(null);
+      setAlerts(prev => ['Prediction history cleared.', ...prev.slice(0, 4)]);
+    } catch (error) {
+      console.error('Error clearing data after report generation:', error);
+      setAlerts((prev: string[]) => ['Failed to clear prediction history.', ...prev.slice(0, 4)]);
+    }
   };
 
   const dismissAlert = (index: number) => {
