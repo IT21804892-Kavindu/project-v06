@@ -150,7 +150,7 @@ const SensorInput: React.FC<SensorInputProps> = ({ onSubmit, isLoading }) => {
       <div className="mt-6 p-4 bg-gray-50 rounded-lg">
         <h3 className="text-sm font-semibold text-gray-700 mb-2">Input Guidelines:</h3>
         <ul className="text-sm text-gray-600 space-y-1">
-          <li>• Rainfall: Typical range 0-200mm for daily readings</li>
+          <li>• Rainfall: Typical range 0-100mm for daily readings</li>
           <li>• Temperature: Normal range 20-35°C for tropical climates</li>
           <li>• Water Content: Scale of 0-100 representing moisture percentage</li>
         </ul>

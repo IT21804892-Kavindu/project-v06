@@ -138,7 +138,7 @@ class ReportGenerator {
           prediction.riskLevel.toUpperCase(),
           `${prediction.temperature}°C`,
           `${prediction.rainfall}mm`,
-          `${prediction.waterContent}`
+          `${prediction.waterContent}%`
         ];
 
         rowData.forEach((data, colIndex) => {

@@ -32,7 +32,7 @@ const AlertSystem: React.FC<AlertSystemProps> = ({ alerts, onDismiss }) => {
         </div>
       ))}
 
-      <style jsx>{`
+      {/* <style jsx>{`
         @keyframes fade-in {
           from {
             opacity: 0;
@@ -47,7 +47,7 @@ const AlertSystem: React.FC<AlertSystemProps> = ({ alerts, onDismiss }) => {
         .animate-fade-in {
           animation: fade-in 0.3s ease-out;
         }
-      `}</style>
+      `}</style> */}
     </div>
   );
 };
