@@ -76,7 +76,16 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    // This effect is no longer necessary as filtering is handled in loadInitialData
+    // Filter predictions to show only last 30 days
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const filtered = predictions.filter(prediction => {
+      const predictionDate = new Date(prediction.timestamp);
+      return predictionDate >= thirtyDaysAgo;
+    });
+
+    setDisplayPredictions(filtered);
   }, [predictions]);
 
   const checkBackendStatus = async () => {

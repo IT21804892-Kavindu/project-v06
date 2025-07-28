@@ -23,7 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .env
-*.pyc
 
 node_modules/
 firebase-credentials.json
