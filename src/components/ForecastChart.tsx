@@ -177,9 +177,9 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ forecast }) => {
         </div>
         <div className="text-center p-3 bg-yellow-50 rounded-lg">
           <p className="text-2xl font-bold text-yellow-600">
-            {forecast.filter(f => f.premiseIndex > 60).length}
+            {weeklyForecast.filter(f => f.premiseIndex > 60).length}
           </p>
-          <p className="text-sm text-yellow-800">High Risk Days</p>
+          <p className="text-sm text-yellow-800">High Risk Weeks</p>
         </div>
       </div>
 
