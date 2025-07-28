@@ -50,7 +50,6 @@ const App: React.FC = () => {
   const [isSavingToDb, setIsSavingToDb] = useState(false);
 
   useEffect(() => {
-    loadInitialData();
     loadForecast();
     checkBackendStatus();
   }, []);
